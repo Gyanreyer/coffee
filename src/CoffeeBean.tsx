@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import * as THREE from "three";
-import { useFrame } from "@react-three/fiber";
+import { GroupProps, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
+import { useParticle, ParticleProps, Triplet } from "@react-three/cannon";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -14,28 +15,44 @@ type GLTFResult = GLTF & {
   };
 };
 
-export default function CoffeeBean(props: JSX.IntrinsicElements["group"]) {
-  const group = useRef<THREE.Group>();
+type CoffeeBeanProps = ParticleProps &
+  GroupProps & {
+    getNextPosition: () => Triplet;
+    minYPosition: number;
+  };
 
-  const [rotation, setRotation] = useState(0);
+export default function CoffeeBean({
+  getNextPosition,
+  scale,
+  minYPosition,
+  ...props
+}: CoffeeBeanProps) {
+  const [ref, api] = useParticle(() => ({
+    angularVelocity: props.rotation,
+    type: "Kinematic",
+    ...props,
+  }));
 
-  useFrame(() => {
-    setRotation((currentRotation) => (currentRotation += 0.01));
-  });
+  const { viewport } = useThree();
+  // The bean should be scaled to 1% of the viewport's width
+  const viewportRelativeScale = viewport.width / 100;
 
   const { nodes, materials } = useGLTF(
     "assets/coffee_bean_v2.gltf"
   ) as GLTFResult;
 
+  useEffect(() => {
+    const unsubscribePosition = api.position.subscribe(([x, y, z]) => {
+      if (y < minYPosition) {
+        api.position.set(...getNextPosition());
+      }
+    });
+
+    return unsubscribePosition;
+  }, [getNextPosition, minYPosition]);
+
   return (
-    <group
-      ref={group}
-      dispose={null}
-      scale={[0.5, 0.5, 0.5]}
-      position={[0, 0, 0]}
-      rotation={[1, rotation, 0]}
-      {...props}
-    >
+    <group ref={ref} dispose={null} scale={scale}>
       <mesh geometry={nodes.BEAN.geometry} material={materials.default} />
     </group>
   );

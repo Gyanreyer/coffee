@@ -1,16 +1,16 @@
 import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 
-import CoffeeBean from "./CoffeeBean";
+import FallingBeans from "./FallingBeans";
 import "./app.css";
 
 export default function App() {
   return (
-    <Canvas>
+    <Canvas dpr={[1, 2]} mode="concurrent">
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
       <Suspense fallback={null}>
-        <CoffeeBean />
+        <FallingBeans />
       </Suspense>
     </Canvas>
   );
