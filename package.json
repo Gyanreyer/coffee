@@ -16,14 +16,11 @@
     "@types/three": "^0.133.1",
     "cpx": "^1.5.0",
     "esbuild": "^0.13.8",
-    "gltfjsx": "^4.5.2",
     "servor": "^4.0.2",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "@react-three/cannon": "^4.0.1",
-    "@react-three/drei": "^7.17.1",
     "@react-three/fiber": "^7.0.17",
     "react": "^18.0.0-alpha-4298ddbc5-20211023",
     "react-dom": "^18.0.0-alpha-4298ddbc5-20211023",

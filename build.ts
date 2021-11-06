@@ -37,6 +37,7 @@ if (isDev) {
   serve(
     {
       servedir: "dist",
+      port: 8080,
     },
     options
   ).then((server) => {

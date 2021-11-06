@@ -6,12 +6,15 @@ import "./app.css";
 
 export default function App() {
   return (
-    <Canvas dpr={[1, 2]} mode="concurrent">
-      <ambientLight />
-      <pointLight position={[10, 10, 10]} />
-      <Suspense fallback={null}>
-        <FallingBeans />
-      </Suspense>
-    </Canvas>
+    <>
+      <h1 className="heading">coffee</h1>
+      <Canvas dpr={[1, 2]} mode="concurrent" className="fallingBeansCanvas">
+        <ambientLight />
+        <pointLight position={[10, 10, 10]} />
+        <Suspense fallback={null}>
+          <FallingBeans />
+        </Suspense>
+      </Canvas>
+    </>
   );
 }
