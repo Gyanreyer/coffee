@@ -21,6 +21,7 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
+    "@react-three/drei": "^7.20.0",
     "@react-three/fiber": "^7.0.17",
     "react": "^18.0.0-alpha-4298ddbc5-20211023",
     "react-dom": "^18.0.0-alpha-4298ddbc5-20211023",
